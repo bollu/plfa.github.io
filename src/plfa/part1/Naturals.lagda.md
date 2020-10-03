@@ -6,6 +6,8 @@ permalink : /Naturals/
 next      : /Induction/
 ---
 
+- http://www.cse.chalmers.se/~peterd/papers/AgdaLectureNotes2018.pdf
+
 ```
 module plfa.part1.Naturals where
 ```
@@ -82,6 +84,7 @@ Write out `7` in longhand.
 
 ```
 -- Your code goes here
+seven = suc (suc (suc (suc (suc (suc (suc zero))))))
 ```
 
 
@@ -431,6 +434,8 @@ Compute `3 + 4`, writing out your reasoning as a chain of equations, using the e
 
 ```
 -- Your code goes here
+_ : 3 + 4 ≡ 7
+_ = refl
 ```
 
 
@@ -476,7 +481,7 @@ _ =
   ≡⟨⟩    -- base case
     3 + (3 + 0)
   ≡⟨⟩    -- simplify
-    6
+   6
   ∎
 ```
 The first line matches the inductive case by taking `m = 1` and `n = 3`,
@@ -493,6 +498,7 @@ Compute `3 * 4`, writing out your reasoning as a chain of equations, using the e
 
 ```
 -- Your code goes here
+_ = begin  3 * 4 ≡⟨⟩ 12 ∎
 ```
 
 
@@ -507,11 +513,17 @@ Check that `3 ^ 4` is `81`.
 
 ```
 -- Your code goes here
+_^_ : ℕ -> ℕ -> ℕ
+m ^ 0 = 1
+m ^ (suc n)  = m * (m ^ n)
+
+_ : 3 ^ 4 ≡ 81
+_ = refl 
 ```
 
 
 
-## Monus
+## Minus
 
 We can also define subtraction.  Since there are no negative
 natural numbers, if we subtract a larger number from a smaller
@@ -572,6 +584,12 @@ Compute `5 ∸ 3` and `3 ∸ 5`, writing out your reasoning as a chain of equati
 
 ```
 -- Your code goes here
+_ = begin
+  5 ∸ 3
+  ≡⟨⟩
+   4 ∸ 2 ≡⟨⟩
+   3 ∸ 1 ≡⟨⟩
+   2 ∸ 0 ≡⟨⟩  2 ∎
 ```
 
 
@@ -918,6 +936,22 @@ Confirm that these both give the correct answer for zero through four.
 
 ```
 -- Your code goes here
+inc : Bin → Bin
+inc ⟨⟩ = ⟨⟩ I
+inc (x O) = x I
+inc (x I) = (inc x) O
+
+_ : inc(⟨⟩ O) ≡ ⟨⟩ I
+_ = refl
+
+_ : inc(⟨⟩ I) ≡ ⟨⟩ I O
+_ = refl
+
+_ : inc(⟨⟩ I O) ≡ ⟨⟩ I I
+_ = refl
+
+_ : inc(⟨⟩ I I) ≡ ⟨⟩ I O O
+_ = refl
 ```
 
 
@@ -927,7 +961,7 @@ At the end of each chapter, we will show where to find relevant
 definitions in the standard library.  The naturals, constructors for
 them, and basic operators upon them, are defined in the standard
 library module `Data.Nat`:
-
+ 
 ```
 -- import Data.Nat using (ℕ; zero; suc; _+_; _*_; _^_; _∸_)
 ```
@@ -990,3 +1024,4 @@ move the cursor onto the character and use `quail-show-key` with:
 
 You'll see a key sequence of the character in mini buffer.
 If you run `M-x quail-show-key` on say `∸`, you will see `\.-` for the character.
+
