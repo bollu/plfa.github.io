@@ -752,6 +752,12 @@ This gives an entirely finitist view of infinite sets of data and
 equations relating the data.
 
 
+```
+_++_ : ℕ -> ℕ -> ℕ
+zero ++ n = n
+suc m ++ zero = suc m
+suc m ++ suc n = suc (m + n)
+```
 ## Writing definitions interactively
 
 Agda is designed to be used with the Emacs text editor, and the two
@@ -919,7 +925,55 @@ represents a positive natural, and represent zero by `⟨⟩ O`.
 Confirm that these both give the correct answer for zero through four.
 
 ```
--- Your code goes here
+sucB : Bin → Bin
+sucB (⟨⟩) = ⟨⟩ I
+sucB (x O) = x I
+sucB (x I) =  (sucB x) O
+
+to : ℕ → Bin
+to zero = ⟨⟩
+to (suc x) = sucB (to x)
+
+_ =
+  begin
+    to 0
+  ≡⟨⟩
+  ⟨⟩
+  ∎
+
+_ =
+  begin
+    to 1
+  ≡⟨⟩
+  ⟨⟩ I
+  ∎
+
+_ =
+  begin
+    to 2
+  ≡⟨⟩
+  ⟨⟩ I O
+  ∎
+
+_ =
+  begin
+    to 3
+  ≡⟨⟩
+  ⟨⟩ I I
+  ∎
+
+_ =
+  begin
+    to 4
+  ≡⟨⟩
+  ⟨⟩ I O O
+  ∎
+_ =
+  begin
+    to 5
+  ≡⟨⟩
+  ⟨⟩ I O I
+  ∎
 ```
 
 
@@ -992,3 +1046,4 @@ move the cursor onto the character and use `quail-show-key` with:
 
 You'll see a key sequence of the character in mini buffer.
 If you run `M-x quail-show-key` on say `∸`, you will see `\.-` for the character.
+
